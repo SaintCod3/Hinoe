@@ -146,6 +146,8 @@ class App extends Component {
             </Row>
           </Container>
         </Jumbotron>
+
+        {/* Container for breakdowns of income and expenses */}
         <Container fluid="md">
           <Row>
             <Col sm="12" md="12" lg="6">
@@ -192,6 +194,9 @@ class App extends Component {
             </Col>
           </Row>
         </Container>
+
+        {/* Modals for income and expenses */}
+
         <Modal
           show={this.state.showIngresosModal}
           size="md"
