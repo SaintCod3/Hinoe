@@ -9,7 +9,7 @@
 
 .capitalize {
   text-transform: capitalize;
-  color: #999999;
+  color: #7c2be6;
 }
 
 .customJum {
@@ -18,4 +18,8 @@
 
 Jumbotron {
   background-color: transparent;
+}
+
+body {
+  background: #f3f2f2 !important;
 }

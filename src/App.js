@@ -24,6 +24,7 @@ class App extends Component {
       ingresosTotal: 0,
       showIngresosModal: false,
       showAhorrosModal: false,
+      error: false,
       currency: "GBP",
       language: "en-UK",
       date: new Date().toLocaleString("default", { month: "long" }),
@@ -54,11 +55,13 @@ class App extends Component {
   };
 
   onChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+    e.target.value == NaN
+      ? this.setState({ error: true })
+      : this.setState({ [e.target.name]: e.target.value });
   };
 
   onSubmitGastos = (e) => {
-    const { gastos, gastosInput, gastosTotal } = this.state;
+    const { gastos, gastosInput, error } = this.state;
     gastos.push(gastosInput);
     const total = this.sumTotal(gastos);
     this.setState({
@@ -69,7 +72,7 @@ class App extends Component {
   };
 
   onSubmitIngresos = (e) => {
-    const { ingresos, ingresosInput, ingresosTotal } = this.state;
+    const { ingresos, ingresosInput, error } = this.state;
     ingresos.push(ingresosInput);
     const total = this.sumTotal(ingresos);
     this.setState({
