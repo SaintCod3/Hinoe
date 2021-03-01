@@ -89,12 +89,12 @@ class App extends Component {
     }).format(
       this.state.ingresosTotal -
         this.state.gastosTotal -
-        (10 * (this.state.ingresosTotal - this.state.gastosTotal)) / 100
+        (10 * this.state.ingresosTotal) / 100
     );
     const ahorrosTotalCurrency = new Intl.NumberFormat(this.state.language, {
       style: "currency",
       currency: this.state.currency,
-    }).format((10 * (this.state.ingresosTotal - this.state.gastosTotal)) / 100);
+    }).format((10 * this.state.ingresosTotal) / 100);
     return (
       <>
         <style type="text/css">
@@ -153,7 +153,7 @@ class App extends Component {
             <Col sm="12" md="12" lg="6">
               <Row>
                 <Col>
-                  <h4 className="font-weight-light">Ingresos</h4>
+                  <h4 className="font-weight-light">Income</h4>
                 </Col>
                 <Col className="text-right">
                   <Button variant="purpleCustom" onClick={this.ingresosModal}>
@@ -174,7 +174,7 @@ class App extends Component {
             <Col sm="12" md="12" lg="6">
               <Row>
                 <Col>
-                  <h4 className="font-weight-light">Gastos</h4>
+                  <h4 className="font-weight-light">Expenses</h4>
                 </Col>
                 <Col className="text-right">
                   <Button variant="purpleCustom" onClick={this.gastosModal}>
@@ -217,7 +217,7 @@ class App extends Component {
               </Form.Group>
               <Form.Group className="text-center">
                 <Button variant="purpleCustom" type="submit">
-                  Guardar
+                  Submit
                 </Button>
               </Form.Group>
             </Form>
@@ -230,9 +230,6 @@ class App extends Component {
           centered
           onHide={this.onCloseGastos}
         >
-          <Modal.Header>
-            <h4 className="font-weight-light">Gastos</h4>
-          </Modal.Header>
           <Modal.Body>
             <Form onSubmit={this.onSubmitGastos}>
               <Form.Label>Add your expenses: </Form.Label>
@@ -246,7 +243,7 @@ class App extends Component {
               </Form.Group>
               <Form.Group className="text-center">
                 <Button variant="purpleCustom" type="submit">
-                  Guardar
+                  Submit
                 </Button>
               </Form.Group>
             </Form>
