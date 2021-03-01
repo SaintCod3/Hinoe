@@ -19,10 +19,10 @@ class App extends Component {
       gastos: [],
       gastosTotal: 0,
       gastosInput: 0,
-      ingresos: [],
-      ingresosInput: 0,
-      ingresosTotal: 0,
-      showIngresosModal: false,
+      income: [],
+      incomeInput: 0,
+      incomeTotal: 0,
+      showincomeModal: false,
       showAhorrosModal: false,
       error: false,
       currency: "GBP",
@@ -31,23 +31,23 @@ class App extends Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmitGastos = this.onSubmitGastos.bind(this);
-    this.onSubmitIngresos = this.onSubmitIngresos.bind(this);
+    this.onSubmitIncome = this.onSubmitIncome.bind(this);
   }
 
   sumTotal(arr) {
     const reducer = (sum, val) => sum + Math.round(val);
     return arr.reduce(reducer, 0);
   }
-  onCloseIngresos = (e) => {
-    this.setState({ showIngresosModal: false });
+  onCloseIncome = (e) => {
+    this.setState({ showincomeModal: false });
   };
 
   onCloseGastos = (e) => {
     this.setState({ showGastosModal: false });
   };
 
-  ingresosModal = (e) => {
-    this.setState({ showIngresosModal: true });
+  incomeModal = (e) => {
+    this.setState({ showincomeModal: true });
   };
 
   gastosModal = (e) => {
@@ -71,13 +71,13 @@ class App extends Component {
     e.preventDefault();
   };
 
-  onSubmitIngresos = (e) => {
-    const { ingresos, ingresosInput, error } = this.state;
-    ingresos.push(ingresosInput);
-    const total = this.sumTotal(ingresos);
+  onSubmitIncome = (e) => {
+    const { income, incomeInput, error } = this.state;
+    income.push(incomeInput);
+    const total = this.sumTotal(income);
     this.setState({
-      showIngresosModal: false,
-      ingresosTotal: total,
+      showincomeModal: false,
+      incomeTotal: total,
     });
     e.preventDefault();
   };
@@ -87,14 +87,14 @@ class App extends Component {
       style: "currency",
       currency: this.state.currency,
     }).format(
-      this.state.ingresosTotal -
+      this.state.incomeTotal -
         this.state.gastosTotal -
-        (10 * this.state.ingresosTotal) / 100
+        (10 * this.state.incomeTotal) / 100
     );
     const ahorrosTotalCurrency = new Intl.NumberFormat(this.state.language, {
       style: "currency",
       currency: this.state.currency,
-    }).format((10 * this.state.ingresosTotal) / 100);
+    }).format((10 * this.state.incomeTotal) / 100);
     return (
       <>
         <style type="text/css">
@@ -156,18 +156,18 @@ class App extends Component {
                   <h4 className="font-weight-light">Income</h4>
                 </Col>
                 <Col className="text-right">
-                  <Button variant="purpleCustom" onClick={this.ingresosModal}>
+                  <Button variant="purpleCustom" onClick={this.incomeModal}>
                     Add
                   </Button>
                 </Col>
               </Row>
               <hr />
-              {this.state.ingresos.map((ingreso) => (
-                <p id={ingreso}>
+              {this.state.income.map((income) => (
+                <p id={income}>
                   {new Intl.NumberFormat(this.state.language, {
                     style: "currency",
                     currency: this.state.currency,
-                  }).format(ingreso)}
+                  }).format(income)}
                 </p>
               ))}
             </Col>
@@ -198,20 +198,20 @@ class App extends Component {
         {/* Modals for income and expenses */}
 
         <Modal
-          show={this.state.showIngresosModal}
+          show={this.state.showincomeModal}
           size="md"
           aria-labelledby="contained-modal-title-vcenter"
           centered
-          onHide={this.onCloseIngresos}
+          onHide={this.onCloseIncome}
         >
           <Modal.Body>
-            <Form onSubmit={this.onSubmitIngresos}>
+            <Form onSubmit={this.onSubmitIncome}>
               <Form.Label>Add your income: </Form.Label>
               <Form.Group>
                 <Form.Control
                   type="text"
                   placeholder=""
-                  name="ingresosInput"
+                  name="incomeInput"
                   onChange={this.onChange}
                 />
               </Form.Group>
