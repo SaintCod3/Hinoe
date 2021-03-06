@@ -82,6 +82,24 @@ class App extends Component {
     e.preventDefault();
   };
 
+  componentDidMount() {
+    localStorage.getItem("Expenses").length > 0
+      ? this.setState({
+          gastos: JSON.parse(localStorage.getItem("Expenses")),
+        })
+      : localStorage.setItem("Expenses", JSON.stringify(this.state.gastos));
+    localStorage.getItem("Income").length > 0
+      ? this.setState({
+          income: JSON.parse(localStorage.getItem("Income")),
+        })
+      : localStorage.setItem("Income", JSON.stringify(this.state.income));
+  }
+
+  componentDidUpdate() {
+    localStorage.setItem("Expenses", JSON.stringify(this.state.gastos));
+    localStorage.setItem("Income", JSON.stringify(this.state.income));
+  }
+
   render() {
     const totalCurrency = new Intl.NumberFormat(this.state.language, {
       style: "currency",
@@ -162,8 +180,8 @@ class App extends Component {
                 </Col>
               </Row>
               <hr />
-              {this.state.income.map((income) => (
-                <p id={income}>
+              {this.state.income.map((income, i) => (
+                <p id={i}>
                   {new Intl.NumberFormat(this.state.language, {
                     style: "currency",
                     currency: this.state.currency,
@@ -183,8 +201,8 @@ class App extends Component {
                 </Col>
               </Row>
               <hr />
-              {this.state.gastos.map((gasto) => (
-                <p id={gasto}>
+              {this.state.gastos.map((gasto, i) => (
+                <p id={i}>
                   {new Intl.NumberFormat(this.state.language, {
                     style: "currency",
                     currency: this.state.currency,
