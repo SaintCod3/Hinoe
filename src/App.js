@@ -5,6 +5,7 @@ import {
   Col,
   Row,
   Navbar,
+  NavDropdown,
   Jumbotron,
   Button,
   Modal,
@@ -58,6 +59,12 @@ class App extends Component {
     e.target.value == NaN
       ? this.setState({ error: true })
       : this.setState({ [e.target.name]: e.target.value });
+  };
+
+  onReset = (e) => {
+    localStorage.removeItem("Expenses");
+    localStorage.removeItem("Income");
+    window.location.reload(false);
   };
 
   onSubmitGastos = (e) => {
@@ -158,6 +165,14 @@ class App extends Component {
               alt="Hinoe logo"
             />
           </Navbar.Brand>
+          <Button
+            variant="purpleCustom"
+            type="submit"
+            onClick={this.onReset}
+            className="ml-auto"
+          >
+            Reset
+          </Button>
         </Navbar>
         <Jumbotron className="customJum">
           <Container>
