@@ -83,14 +83,20 @@ class App extends Component {
   };
 
   componentDidMount() {
-    localStorage.getItem("Expenses").length > 0
+    localStorage.getItem("Expenses")
       ? this.setState({
           gastos: JSON.parse(localStorage.getItem("Expenses")),
+          gastosTotal: this.sumTotal(
+            JSON.parse(localStorage.getItem("Expenses"))
+          ),
         })
       : localStorage.setItem("Expenses", JSON.stringify(this.state.gastos));
-    localStorage.getItem("Income").length > 0
+    localStorage.getItem("Income")
       ? this.setState({
           income: JSON.parse(localStorage.getItem("Income")),
+          incomeTotal: this.sumTotal(
+            JSON.parse(localStorage.getItem("Income"))
+          ),
         })
       : localStorage.setItem("Income", JSON.stringify(this.state.income));
   }
