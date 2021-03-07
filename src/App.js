@@ -67,8 +67,7 @@ class App extends Component {
   };
 
   onReset = (e) => {
-    localStorage.removeItem("Expenses");
-    localStorage.removeItem("Income");
+    localStorage.clear();
     window.location.reload(false);
   };
 
