@@ -266,9 +266,12 @@ class App extends Component {
           centered
           onHide={this.onCloseIncome}
         >
+          <Modal.Header>
+            <Modal.Title>Income</Modal.Title>
+          </Modal.Header>
           <Modal.Body>
             <Form onSubmit={this.onSubmitIncome}>
-              <Form.Label>Add your income: </Form.Label>
+              <Form.Label>Name of the income: </Form.Label>
               <Form.Group>
                 <Form.Control
                   type="text"
@@ -277,7 +280,7 @@ class App extends Component {
                   onChange={this.onChange}
                 />
               </Form.Group>
-              <Form.Label>Add your income: </Form.Label>
+              <Form.Label>Value of the income: </Form.Label>
               <Form.Group>
                 <Form.Control
                   type="text"
@@ -301,9 +304,12 @@ class App extends Component {
           centered
           onHide={this.onCloseGastos}
         >
+          <Modal.Header>
+            <Modal.Title>Expense</Modal.Title>
+          </Modal.Header>
           <Modal.Body>
             <Form onSubmit={this.onSubmitGastos}>
-              <Form.Label>Add your expenses: </Form.Label>
+              <Form.Label>Name of the expense: </Form.Label>
               <Form.Group>
                 <Form.Control
                   type="text"
@@ -312,7 +318,7 @@ class App extends Component {
                   onChange={this.onChange}
                 />
               </Form.Group>
-              <Form.Label>Add your expenses: </Form.Label>
+              <Form.Label>Value of the expense: </Form.Label>
               <Form.Group>
                 <Form.Control
                   type="text"
