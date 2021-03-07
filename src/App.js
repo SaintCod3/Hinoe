@@ -20,9 +20,11 @@ class App extends Component {
       gastos: [],
       gastosTotal: 0,
       gastosInput: 0,
+      gastoNameInput: "",
       income: [],
       incomeInput: 0,
       incomeTotal: 0,
+      incomeNameInput: "",
       showincomeModal: false,
       showAhorrosModal: false,
       error: false,
@@ -36,8 +38,11 @@ class App extends Component {
   }
 
   sumTotal(arr) {
-    const reducer = (sum, val) => sum + Math.round(val);
-    return arr.reduce(reducer, 0);
+    let total = 0;
+    for (let i = 0; i < arr.length; i++) {
+      total += parseInt(arr[i].value);
+    }
+    return total;
   }
   onCloseIncome = (e) => {
     this.setState({ showincomeModal: false });
@@ -68,8 +73,12 @@ class App extends Component {
   };
 
   onSubmitGastos = (e) => {
-    const { gastos, gastosInput, error } = this.state;
-    gastos.push(gastosInput);
+    const { gastoNameInput, gastosInput, gastos } = this.state;
+    const newGasto = {
+      name: gastoNameInput,
+      value: gastosInput,
+    };
+    gastos.push(newGasto);
     const total = this.sumTotal(gastos);
     this.setState({
       showGastosModal: false,
@@ -79,8 +88,12 @@ class App extends Component {
   };
 
   onSubmitIncome = (e) => {
-    const { income, incomeInput, error } = this.state;
-    income.push(incomeInput);
+    const { income, incomeInput, incomeNameInput } = this.state;
+    const newExpense = {
+      name: incomeNameInput,
+      value: incomeInput,
+    };
+    income.push(newExpense);
     const total = this.sumTotal(income);
     this.setState({
       showincomeModal: false,
@@ -189,7 +202,7 @@ class App extends Component {
         {/* Container for breakdowns of income and expenses */}
         <Container fluid="md">
           <Row>
-            <Col sm="12" md="12" lg="6">
+            <Col sm="12" md="12" lg="6" className="mb-4">
               <Row>
                 <Col>
                   <h4 className="font-weight-light">Income</h4>
@@ -202,15 +215,20 @@ class App extends Component {
               </Row>
               <hr />
               {this.state.income.map((income, i) => (
-                <p id={i}>
-                  {new Intl.NumberFormat(this.state.language, {
-                    style: "currency",
-                    currency: this.state.currency,
-                  }).format(income)}
-                </p>
+                <Row>
+                  <Col>{income.name}</Col>
+                  <Col className="text-right">
+                    <p id={i}>
+                      {new Intl.NumberFormat(this.state.language, {
+                        style: "currency",
+                        currency: this.state.currency,
+                      }).format(income.value)}
+                    </p>
+                  </Col>
+                </Row>
               ))}
             </Col>
-            <Col sm="12" md="12" lg="6">
+            <Col sm="12" md="12" lg="6" className="mb-4">
               <Row>
                 <Col>
                   <h4 className="font-weight-light">Expenses</h4>
@@ -223,12 +241,17 @@ class App extends Component {
               </Row>
               <hr />
               {this.state.gastos.map((gasto, i) => (
-                <p id={i}>
-                  {new Intl.NumberFormat(this.state.language, {
-                    style: "currency",
-                    currency: this.state.currency,
-                  }).format(gasto)}
-                </p>
+                <Row>
+                  <Col>{gasto.name}</Col>
+                  <Col className="text-right">
+                    <p id={i}>
+                      {new Intl.NumberFormat(this.state.language, {
+                        style: "currency",
+                        currency: this.state.currency,
+                      }).format(gasto.value)}
+                    </p>
+                  </Col>
+                </Row>
               ))}
             </Col>
           </Row>
@@ -245,6 +268,15 @@ class App extends Component {
         >
           <Modal.Body>
             <Form onSubmit={this.onSubmitIncome}>
+              <Form.Label>Add your income: </Form.Label>
+              <Form.Group>
+                <Form.Control
+                  type="text"
+                  placeholder=""
+                  name="incomeNameInput"
+                  onChange={this.onChange}
+                />
+              </Form.Group>
               <Form.Label>Add your income: </Form.Label>
               <Form.Group>
                 <Form.Control
@@ -271,6 +303,15 @@ class App extends Component {
         >
           <Modal.Body>
             <Form onSubmit={this.onSubmitGastos}>
+              <Form.Label>Add your expenses: </Form.Label>
+              <Form.Group>
+                <Form.Control
+                  type="text"
+                  placeholder=""
+                  name="gastoNameInput"
+                  onChange={this.onChange}
+                />
+              </Form.Group>
               <Form.Label>Add your expenses: </Form.Label>
               <Form.Group>
                 <Form.Control
