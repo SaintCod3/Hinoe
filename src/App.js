@@ -14,7 +14,6 @@ import {
   Tabs,
   Tab,
 } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import CSVConverter from "./CSVConverter";
 
 class App extends Component {
