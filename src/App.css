@@ -78,6 +78,7 @@ a:hover {
   color: #ae8adf !important;
   margin-top: 0px;
   margin-bottom: 10px;
+  cursor: pointer;
 }
 
 .disabled {
@@ -95,4 +96,14 @@ a:hover {
 
 .helper {
   font-weight: lighter !important;
+}
+
+.svg-icon {
+  display: inline-flex;
+  align-self: center;
+}
+
+.svg-icon.svg-baseline svg {
+  top: 0.125em;
+  position: relative;
 }

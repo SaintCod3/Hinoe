@@ -4,9 +4,7 @@ import {
   Container,
   Col,
   Row,
-  Nav,
   Navbar,
-  NavDropdown,
   Jumbotron,
   Button,
   Modal,
@@ -15,6 +13,8 @@ import {
   Tab,
 } from "react-bootstrap";
 import CSVConverter from "./CSVConverter";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 
 class App extends Component {
   constructor(props) {
@@ -44,6 +44,8 @@ class App extends Component {
     this.onChangeGastosInput = this.onChangeGastosInput.bind(this);
     this.onChangeIncomeInput = this.onChangeIncomeInput.bind(this);
     this.onChangeSaving = this.onChangeSaving.bind(this);
+    this.expensesRemoval = this.expensesRemoval.bind(this);
+    this.incomeRemoval = this.incomeRemoval.bind(this);
   }
 
   sumTotal(arr) {
@@ -52,6 +54,25 @@ class App extends Component {
       total += parseInt(arr[i].value);
     }
     return total;
+  }
+  incomeRemoval(index) {
+    let { income } = this.state;
+    income.splice(index, 1);
+    const total = this.sumTotal(income);
+    this.setState({
+      income: income,
+      incomeTotal: total,
+    });
+  }
+
+  expensesRemoval(index) {
+    let { gastos } = this.state;
+    gastos.splice(index, 1);
+    const total = this.sumTotal(gastos);
+    this.setState({
+      gastos: gastos,
+      gastosTotal: total,
+    });
   }
 
   onCloseIncome = (e) => {
@@ -87,6 +108,7 @@ class App extends Component {
       this.setState({ gastosInput: 0 });
     }
   };
+
   // Validate that the input for the values are either decimal or an integer number
   onChangeIncomeInput = (e) => {
     const regex = /^\d*\.?\d*$/;
@@ -103,11 +125,13 @@ class App extends Component {
       error: false,
     });
   };
+
   onChangeSaving = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
   };
+
   onChangeCurrency = (e) => {
     if (e.target.value === "GBP") {
       this.setState({
@@ -126,6 +150,7 @@ class App extends Component {
       });
     }
   };
+
   onReset = (e) => {
     localStorage.clear();
     window.location.reload(false);
@@ -274,7 +299,7 @@ class App extends Component {
             <Tab eventKey="main" title="Main" className="mt-4">
               <Row>
                 <Col sm="12" md="12" lg="6" className="mb-4">
-                  <Row>
+                  <Row className="align-items-end">
                     <Col>
                       <h4 className="font-weight-light capitalize">Income</h4>
                     </Col>
@@ -286,15 +311,23 @@ class App extends Component {
                   </Row>
                   <hr />
                   {this.state.income.map((income, i) => (
-                    <Row>
-                      <Col>{income.name}</Col>
-                      <Col className="text-right">
-                        <p id={i}>
+                    <Row className="svg-baseline mb-2">
+                      <Col lg="8" md="8" sm="8" xs="8">
+                        <span>{income.name}</span>
+                      </Col>
+                      <Col lg="4" md="4" sm="4" xs="4" className="text-right">
+                        <span id={i}>
                           {new Intl.NumberFormat(this.state.language, {
                             style: "currency",
                             currency: this.state.currency,
                           }).format(income.value)}
-                        </p>
+                        </span>
+                        <a
+                          className="ml-2 svg-icon svg-baseline "
+                          onClick={() => this.incomeRemoval(i)}
+                        >
+                          <FontAwesomeIcon icon={faTrashAlt} />
+                        </a>
                       </Col>
                     </Row>
                   ))}
@@ -312,15 +345,23 @@ class App extends Component {
                   </Row>
                   <hr />
                   {this.state.gastos.map((gasto, i) => (
-                    <Row>
-                      <Col>{gasto.name}</Col>
-                      <Col className="text-right">
-                        <p id={i}>
+                    <Row className="svg-baseline mb-2">
+                      <Col lg="8" md="8" sm="8" xs="8">
+                        <span>{gasto.name}</span>
+                      </Col>
+                      <Col lg="4" md="4" sm="4" xs="4" className="text-right">
+                        <span id={i}>
                           {new Intl.NumberFormat(this.state.language, {
                             style: "currency",
                             currency: this.state.currency,
                           }).format(gasto.value)}
-                        </p>
+                        </span>
+                        <a
+                          className="ml-2 svg-icon svg-baseline "
+                          onClick={() => this.expensesRemoval(i)}
+                        >
+                          <FontAwesomeIcon icon={faTrashAlt} />
+                        </a>
                       </Col>
                     </Row>
                   ))}
@@ -330,7 +371,7 @@ class App extends Component {
 
             {/* Export Options */}
             <Tab eventKey="export" title="Export" className="mt-4 mb-4">
-              <h4 className="font-weight-light">Export options</h4>
+              <h4 className="font-weight-light capitalize">Export options</h4>
               <hr />
               <p className="helper">
                 Please note that this option will remain disabled if there is no
@@ -353,7 +394,7 @@ class App extends Component {
 
             {/*Settings of the site*/}
             <Tab eventKey="settings" title="Settings" className="mt-4 mb-4">
-              <h4 className="font-weight-light">Site Settings</h4>
+              <h4 className="font-weight-light capitalize">Site Settings</h4>
               <hr />
               <Form>
                 <Form.Label>Currency</Form.Label>
@@ -383,7 +424,7 @@ class App extends Component {
                   </Form.Control>
                 </Form.Group>
               </Form>
-              <h4 className="font-weight-light">Data</h4>
+              <h4 className="font-weight-light capitalize">Data</h4>
               <hr />
               <p className="helper">
                 Please note that by performing this action, all the data that
@@ -400,7 +441,9 @@ class App extends Component {
 
             {/* Information tab */}
             <Tab eventKey="info" title="Contact" className="mt-4 text-center">
-              <h4 className="font-weight-light">Contact Information</h4>
+              <h4 className="font-weight-light capitalize">
+                Contact Information
+              </h4>
               <hr />
               <p>
                 If you would like to connect or if you are experiencing issues,
